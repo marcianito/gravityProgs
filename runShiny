@@ -1,0 +1,6 @@
+#!/bin/bash
+# start app
+R -e "shiny::runApp('$1', launch.browser = TRUE)" &
+# open browser with running app
+# xdg-open 'http://127.0.0.1:5314'
+
