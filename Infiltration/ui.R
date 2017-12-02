@@ -18,11 +18,6 @@ tabPanel("Model input data",
 #     ),
 # fluidRow(
 # column(12,
-## run model button
-actionButton(
-        inputId = "run_model",
-        label = "Run infiltration model"
-      ),
 ## input data
 	wellPanel(
     fluidRow(
@@ -31,9 +26,9 @@ actionButton(
       # app directories
       fluidRow(
       column(6,
-      textInput("inputDir", label = "Working directory input")),
+      textInput("inputDir", label = "Working directory input", value = "~/temp/GI/")),
       column(6,
-      textInput("outputDir", label = "Working directory output"))
+      textInput("outputDir", label = "Working directory output", value = "~/temp/GI/"))
       ),
 ## tooltip
 bsTooltip(id = 'inputDir', title = "", placement = "top", trigger = "hover"),
@@ -42,6 +37,14 @@ bsTooltip(id = 'inputDir', title = "", placement = "top", trigger = "hover"),
 bsTooltip(id = 'outputDir', title = "", placement = "top", trigger = "hover"),
 ## end tooltips
       fluidRow(
+        column(6,
+    h4("Columns with spatial data")),
+        column(4,
+    h4("Data column")),
+        column(2,
+    h4("Output"))
+      ),
+      fluidRow(
       column(2,
       numericInput("spat_col_x", label = "x:", value = 1)),
       column(2,
@@ -49,11 +52,11 @@ bsTooltip(id = 'outputDir', title = "", placement = "top", trigger = "hover"),
       column(2,
       numericInput("spat_col_z", label = "z:", value = NA)),
       column(2,
-      numericInput("data_col", label = "data column(csv):", value = 3)),
+      numericInput("data_col", label = "for csv:", value = 3)),
       column(2,
-      numericInput("data_tsf", label = "data column(tsf):", value = 7)),
+      numericInput("data_tsf", label = "for tsf:", value = 7)),
       column(2,
-	  radioButtons('outputType', 'Filetype output',
+	  radioButtons('outputType', 'filetype',
 	   c(csv='csv',
 	     Rdata='.rdata'),
 	   '.rdata'))
@@ -118,20 +121,23 @@ bsTooltip(id = 'pillar_d', title = "", placement = "top", trigger = "hover"),
 	h3("Input files"),
       fluidRow(
       column(6,
-      textInput("inputFile_DEM", label = "DEM")),
+      # fileInput("inputFile_DEM", label = "DEM")),
+      textInput("inputFile_DEM", label = "DEM", value = "")),
       column(6,
-      textInput("inputFile_gObs", label = "Gravity observations"))
+      # fileInput("inputFile_gObs", label = "Gravity observations"))
+      textInput("inputFile_gObs", label = "Gravity observations", value = "iGrav006_obs_60sec.tsf"))
       ),
       fluidRow(
       column(6,
-      textInput("inputFile_IntDistr", label = "Intensitry distribution")),
+      # fileInput("inputFile_IntDistr", label = "Intensitry distribution")),
+      textInput("inputFile_IntDistr", label = "Intensitry distribution", value = "waterIntensity_measured.rData")),
       column(3,
-	  radioButtons('IntpMethod', 'interpolation method',
+	  radioButtons('IntpMethod', 'Interpolation method',
 	   c(iwd='IDW',
 	     kriging='Kriging'),
 	   'IDW')),
       column(3,
-      numericInput("ZeroBorderDensity", label = "ZeroBorderDensity", value = 0.2))
+      numericInput("ZeroBorderDensity", label = "Zero fillup borders", value = 0.2))
       ),
 ## tooltip
 bsTooltip(id = 'inputFile_DEM', title = "", placement = "top", trigger = "hover"),
@@ -150,26 +156,44 @@ bsTooltip(id = 'ZerosBorderDensity', title = "", placement = "top", trigger = "h
 ## end tooltips
       h3("Model domain"),
       fluidRow(
-        column(2,
-        numericInput("modelDomain_xmin", label = "x min:", value = -7.5)),
-        column(2,
-        numericInput("modelDomain_xmax", label = "x max:", value = 7.5)),
-        column(2,
-        numericInput("modelDomain_ymin", label = "y min:", value = -7.5)),
-        column(2,
-        numericInput("modelDomain_ymax", label = "y max:", value = 7.5))
+        column(3,
+    h4("")),
+        column(3,
+    h4("x coordinate")),
+        column(3,
+    h4("y coordinate")),
+        column(3,
+    h4("z coordinate"))
       ),
       fluidRow(
-      column(2,
-      numericInput("modelDiscr_x", label = "discretization x:", value = 0.25)),
-      column(2,
-      numericInput("modelDiscr_y", label = "discretization y:", value = 0.25)),
-      column(2,
-      numericInput("modelDiscr_z", label = "discretization z:", value = 0.25)),
-        column(2,
-        numericInput("modelDepth_min", label = "depth min:", value = -3)),
-        column(2,
-        numericInput("modelDepth_max", label = "depth max:", value = 0))
+        column(3,
+    h4("minimal")),
+        column(3,
+        numericInput("modelDomain_xmin", label = "", value = -7.5)),
+        column(3,
+        numericInput("modelDomain_ymin", label = "", value = -7.5)),
+        column(3,
+        numericInput("modelDepth_min", label = "", value = -3))
+      ),
+      fluidRow(
+        column(3,
+    h4("maximal")),
+        column(3,
+        numericInput("modelDomain_xmax", label = "", value = 7.5)),
+        column(3,
+        numericInput("modelDomain_ymax", label = "", value = 7.5)),
+        column(3,
+        numericInput("modelDepth_max", label = "", value = 0))
+      ),
+      fluidRow(
+        column(3,
+    h4("discretization")),
+      column(3,
+      numericInput("modelDiscr_x", label = "", value = 0.25)),
+      column(3,
+      numericInput("modelDiscr_y", label = "", value = 0.25)),
+      column(3,
+      numericInput("modelDiscr_z", label = "", value = 0.1))
       ),
 ## tooltip
 bsTooltip(id = 'modelDomain_xmin', title = "", placement = "top", trigger = "hover"),
@@ -214,9 +238,9 @@ bsTooltip(id = 'modelDepth_max', title = "", placement = "top", trigger = "hover
 	      no='no'),
 	     'yes')),
         column(3,
-        numericInput("model_interations", label = "number of iterations:", value = 360)),
+        numericInput("model_iterations", label = "Number of iterations:", value = 10)),
         column(3,
-        numericInput("mb_permitted_error", label = "max error for mass balance:", value = 0.05))
+        numericInput("mb_permitted_error", label = "Max error for mass balance:", value = 0.05))
       ),
 ## tooltips
 bsTooltip(id = 'Modeling_mode', title = "this is just a test [min]", placement = "top", trigger = "hover"),
@@ -232,7 +256,7 @@ bsTooltip(id = 'mb_permitted_error', title = "", placement = "top", trigger = "h
 ## end tooltips
       fluidRow(
         column(3,
-        numericInput("precip_time", label = "Sprinkling time:", value = 360)),
+        numericInput("precip_time", label = "Sprinkling time:", value = 10)),
         column(3,
         numericInput("water_vol_min", label = "Water volume per timestep:", value = 0.035)),
         column(3,
@@ -252,6 +276,23 @@ bsTooltip(id = 'plot_interval', title = "", placement = "top", trigger = "hover"
 ## tooltip
 bsTooltip(id = 'plot_transect_loc', title = "", placement = "top", trigger = "hover"),
 ## end tooltips
+
+
+      fluidRow(
+        column(3,
+        numericInput("macroporeLayers", label = "Number of macro pore layers", value = 2))
+		# radioButtons('macroporeLayers', 'Number of macro pore layers',
+		#  c(0='0',
+        #    1='1',
+		#    2='2'),
+		#    '2'))
+        ),
+
+
+
+    # checkboxInput('macrolayers', 'Use macro pore layers?', TRUE)
+    # checkboxInput('2macrolayers', '', TRUE)
+
     h3("Hydrological model parameters"),
       fluidRow(
         column(4,
@@ -362,11 +403,11 @@ bsTooltip(id = 'depth_macro2_start', title = "", placement = "top", trigger = "h
         column(4,
         h5("Depth other process [m]")),
         column(2,
-        numericInput("depth_other_min", label = "", value = -0.5)),
+        numericInput("depth_other_min", label = "", value = -2.5)),
         column(2,
         numericInput("depth_other_max", label = "", value = -0.1)),
         column(2,
-        numericInput("depth_other_start", label = "", value = -0.25))
+        numericInput("depth_other_start", label = "", value = -1.5))
       ),
 ## tooltip
 bsTooltip(id = 'depth_other_min', title = "", placement = "top", trigger = "hover"),
@@ -381,11 +422,11 @@ bsTooltip(id = 'depth_other_start', title = "", placement = "top", trigger = "ho
         column(4,
         h5("Infiltration process")),
         column(2,
-        numericInput("inf_dynamic_min", label = "", value = 1)),
+        numericInput("inf_dynamics_min", label = "", value = 1)),
         column(2,
-        numericInput("inf_dynamic_max", label = "", value = 3)),
+        numericInput("inf_dynamics_max", label = "", value = 3)),
         column(2,
-        numericInput("inf_dynamic_start", label = "", value = 1))
+        numericInput("inf_dynamics_start", label = "", value = 1))
       ),
 ## tooltip
 bsTooltip(id = 'inf_dynamic_min', title = "", placement = "top", trigger = "hover"),
@@ -418,14 +459,48 @@ bsTooltip(id = 'latflow_fac_start', title = "", placement = "top", trigger = "ho
 
     ) # end model parameters
     )
-	# checkboxInput('normalized', 'Normalize data', TRUE)
-	)#end wellPanel
+	),#end wellPanel
+    fluidRow(
+        column(5),
+        column(2,
+## run model button
+actionButton(
+        inputId = "run_model",
+        label = "Run infiltration model"
+      )),
+        column(5)
+    ),
+    fluidRow()
 # ) # end fluidRow around wellPanel
 # ))
 ##
 ), #end tap:Model input
 tabPanel("Model runtime output", 
-verbatimTextOutput("summary3")
+    # run model button
+    # fluidRow(
+    #     column(2),
+    #     column(2,
+    #     actionButton(
+    #         inputId = "run_model",
+    #         label = "Run infiltration model"
+    #     )),
+    #     column(8)
+    # ),
+    # console output
+    fluidRow(
+        column(8,
+
+            verbatimTextOutput("messages")
+            # verbatimTextOutput("console_output")
+            
+        ),
+        column(4,
+            h3("Corresponding figures"),
+            plotOutput(outputId = "test", width = "90%", height = "90%"),
+            plotOutput(outputId = "testgrid", width = "90%", height = "90%"),
+            plotOutput(outputId = "tt", width = "90%", height = "90%")
+        )
+    )
 ),
 tabPanel("Model results", 
 fluidRow(
