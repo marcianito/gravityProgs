@@ -39,78 +39,75 @@ library(automap)
 library(akima)
 
 ###################
+
+
 ## start shiny server
 shinyServer(function(input, output) {
 ###################
 
-## test
-output$tt = renderPlot({
-  plot(input$plot_interval : 100)
-})
-
-print_input = reactive({
-rbind(
-    dir_input = input$inputDir,
-    dir_output = input$outputDir,
-    output_type = input$outputType,
-    SG_x = input$grav_x,
-    SG_y = input$grav_y,
-    SG_Z = input$grav_z,
-    SG_SensorHeight = input$grav_height,
-    modelDomain_xmin = input$modelDomain_xmin,
-    modelDomain_xmax = input$modelDomain_xmax,
-    modelDomain_ymin = input$modelDomain_ymin,
-    modelDomain_ymax = input$modelDomain_ymax,
-    modelDiscr_x = input$modelDiscr_x,
-    modelDiscr_y = input$modelDiscr_y,
-    modelDiscr_z = input$modelDiscr_z,
-    modelDepth_min = input$modelDepth_min,
-    modelDepth_max = input$modelDepth_max,
-    thres_radius = input$pillar_r,
-    spatial_col_x = input$spat_col_x,
-    spatial_col_y = input$spat_col_y,
-    spatial_col_z = input$spat_col_z,
-    data_col = input$data_col,
-    data_tsf = input$data_tsf,
-    DEM_input_file = input$inputFile_DEM,
-    IntensityDistribution_file = input$inputFile_IntDistr,
-    interpolation_method = input$IntpMethod,
-    Zeros_border_density = input$ZeroBorderDensity,
-    gravityObservations_file = input$inputFile_gObs,
-    ModelingMode = input$Modeling_mode,
-    model_runs = input$model_iterations,
-    del_prevModRuns = input$del_prevModRuns,
-    number_macroLayers = input$macroporeLayers,
-    inf_dynamics_min = input$inf_dynamics_min,
-    precip_time = input$precip_time,
-    water_vol_min = input$water_vol_min,
-    mb_permitted_error = input$mb_permitted_error,
-    dtheta_macro_min = input$theta_macro_min,
-    dtheta_macro_max = input$theta_macro_max,
-    dtheta_macro2_min = input$theta_macro2_min,
-    dtheta_macro2_max = input$theta_macro2_max,
-    mdepth_min = input$depth_macro_min,
-    mdepth_max = input$depth_macro_max,
-    mdepth2_min = input$depth_macro2_min,
-    mdepth2_max = input$depth_macro2_max,
-    dtheta_other_min = input$theta_other_min,
-    dtheta_other_max = input$theta_other_max,
-    pdepth_min = input$depth_other_min,
-    pdepth_max = input$depth_other_max,
-    latflow_fac_min = input$latflow_fac_min,
-    latflow_fac_max = input$latflow_fac_max,
-    dtheta_macro_start = input$theta_macro_start,
-    dtheta_macro2_start = input$theta_macro2_start,
-    mdepth_start = input$depth_macro_start,
-    mdepth2_start = input$depth_macro2_start,
-    dtheta_other_start = input$theta_other_start,
-    latflow_fac_start = input$latflow_fac_start,
-    inf_dynamics_start = input$inf_dynamics_start,
-    pdepth_start = input$depth_other_start,
-    plot_interval = input$plot_interval,
-    plot_transect_loc = input$plot_transect_loc
-)
-})
+# print_input = reactive({
+# rbind(
+#     dir_input = input$inputDir,
+#     dir_output = input$outputDir,
+#     output_type = input$outputType,
+#     SG_x = input$grav_x,
+#     SG_y = input$grav_y,
+#     SG_Z = input$grav_z,
+#     SG_SensorHeight = input$grav_height,
+#     modelDomain_xmin = input$modelDomain_xmin,
+#     modelDomain_xmax = input$modelDomain_xmax,
+#     modelDomain_ymin = input$modelDomain_ymin,
+#     modelDomain_ymax = input$modelDomain_ymax,
+#     modelDiscr_x = input$modelDiscr_x,
+#     modelDiscr_y = input$modelDiscr_y,
+#     modelDiscr_z = input$modelDiscr_z,
+#     modelDepth_min = input$modelDepth_min,
+#     modelDepth_max = input$modelDepth_max,
+#     thres_radius = input$pillar_r,
+#     spatial_col_x = input$spat_col_x,
+#     spatial_col_y = input$spat_col_y,
+#     spatial_col_z = input$spat_col_z,
+#     data_col = input$data_col,
+#     data_tsf = input$data_tsf,
+#     DEM_input_file = input$inputFile_DEM,
+#     IntensityDistribution_file = input$inputFile_IntDistr,
+#     interpolation_method = input$IntpMethod,
+#     Zeros_border_density = input$ZeroBorderDensity,
+#     gravityObservations_file = input$inputFile_gObs,
+#     ModelingMode = input$Modeling_mode,
+#     model_runs = input$model_iterations,
+#     del_prevModRuns = input$del_prevModRuns,
+#     number_macroLayers = input$macroporeLayers,
+#     inf_dynamics_min = input$inf_dynamics_min,
+#     precip_time = input$precip_time,
+#     water_vol_min = input$water_vol_min,
+#     mb_permitted_error = input$mb_permitted_error,
+#     dtheta_macro_min = input$theta_macro_min,
+#     dtheta_macro_max = input$theta_macro_max,
+#     dtheta_macro2_min = input$theta_macro2_min,
+#     dtheta_macro2_max = input$theta_macro2_max,
+#     mdepth_min = input$depth_macro_min,
+#     mdepth_max = input$depth_macro_max,
+#     mdepth2_min = input$depth_macro2_min,
+#     mdepth2_max = input$depth_macro2_max,
+#     dtheta_other_min = input$theta_other_min,
+#     dtheta_other_max = input$theta_other_max,
+#     pdepth_min = input$depth_other_min,
+#     pdepth_max = input$depth_other_max,
+#     latflow_fac_min = input$latflow_fac_min,
+#     latflow_fac_max = input$latflow_fac_max,
+#     dtheta_macro_start = input$theta_macro_start,
+#     dtheta_macro2_start = input$theta_macro2_start,
+#     mdepth_start = input$depth_macro_start,
+#     mdepth2_start = input$depth_macro2_start,
+#     dtheta_other_start = input$theta_other_start,
+#     latflow_fac_start = input$latflow_fac_start,
+#     inf_dynamics_start = input$inf_dynamics_start,
+#     pdepth_start = input$depth_other_start,
+#     plot_interval = input$plot_interval,
+#     plot_transect_loc = input$plot_transect_loc
+# )
+# })
 
 ####################
 ## model run EXECUTION CODE
@@ -119,6 +116,9 @@ observeEvent(
       eventExpr = input[["run_model"]],
       handlerExpr = {
 ## start code, when "run model"-button is pressed
+## tracking R console output and pass it to shiny text output
+withCallingHandlers({
+        shinyjs::html("text", "")
 
 ###################
 ## SETUP: assigning values
@@ -141,7 +141,7 @@ if(input$outputType == 'csv'){ output_type = "csv"
 output_type = ""
 }
 # Plotting option: should a plot of all time series be shown (and saved) in the end?
-plot_data = FALSE
+plot_data = TRUE
 #
 ## Gravimeter location
 # in [m]
@@ -407,10 +407,11 @@ surface_grid = surface_grid(
 #
 if(!is.null(surface_grid)){
   if(plot_data){
- output$test = renderPlot({ 
-   ggplot(surface_grid, 
+  surface.gg =  ggplot(surface_grid, 
            aes(x=x, y=y)) + 
            geom_tile(aes(fill = z))
+ output$surfaceGrid = renderPlot({ 
+    surface.gg
   })
   }
 }
@@ -431,14 +432,16 @@ gravity_component_grid3d = gravity_comp_grid(
 )
 #
 if(plot_data){
- output$testgrid = renderPlot({ 
-    ggplot(gravity_component_grid3d, 
+# message("plotting.")
+    gravity_grid.gg = ggplot(gravity_component_grid3d, 
          aes(x=x, y=y)) + 
          geom_tile(aes(fill = z))
          # geom_point(aes(color = z))
+ output$gCompGrid = renderPlot({ 
+     gravity_grid.gg
   })
 }
-#
+# 
 message("done.")
 #########################################
 ## Correct gravity component grid for SG pillar 
@@ -462,13 +465,14 @@ save(gravity_component_grid3d, file = paste0(dir_output, "gravity_component_grid
 #
 if(plot_data){
   message("Plotting transect of gravity component grid and saving plot to output directory..")
-  plotting_images = reactive({
-  plot_gcomp_grid(
+  gravity_grid_mod.gg = plot_gcomp_grid(
                   grid_input = gravity_component_grid3d,
                   yloc = SG_y,
                   output_dir = dir_output,
                   grid_discretization = grid3d_discr
   )
+ output$gCompGrid_PillarRemoved = renderPlot({ 
+    gravity_grid_mod.gg
   })
 }
 #
@@ -492,10 +496,11 @@ Intensity_distribution_interpolated = create_WaterIntensityGrid(
 )
 #
 if(plot_data){
-  plotting_images = reactive({
-  ggplot(Intensity_distribution_interpolated, 
+  waterIntGird.gg = ggplot(Intensity_distribution_interpolated, 
          aes(x=x, y=y)) + 
          geom_tile(aes(fill = intensity))
+ output$waterIntensityGrid = renderPlot({ 
+    waterIntGird.gg
   })
          # geom_point(aes(color = intensity))
 }
@@ -539,6 +544,7 @@ print("Running infiltration model..")
 
 if(!inverse){
   print("Model is run in conversion mode.")
+st = Sys.time()
   model_result = run_model_conversion(
               dtheta_macro = dtheta_macro_start,
               dtheta_macro2 = dtheta_macro2_start,
@@ -550,6 +556,8 @@ if(!inverse){
               pdepth = pdepth_start,
               output_dir = dir_output
               )
+en = Sys.time()
+time_elapsed = en - st
 #
 }else{
 ## Run optimization algorithm
@@ -595,14 +603,31 @@ en = Sys.time()
 time_elapsed = en - st
 
   print("Finished optimization.")
-  print(time_elapsed)
 # end of inversion / conversion mode infiltration model runs
 }
+# print time necessary for individual setup model run
+  print(paste0("Model run needed: ", time_elapsed))
 #
 # save model data (parameters in- and output)
 save(model_result, file=paste0(dir_output, "Model_stats.rdata"))
 write.table(model_result, file=paste0(dir_output, "Model_stats.csv"), sep="\t", dec=".", row.names = F, col.names = T, append = F)
 
+## render table for shiny output
+# select parameters to show
+model_result_output = model_result %>%
+  dplyr::select(inf_process_tested, model_kge,
+              contains("dtheta_macro"),
+              contains("dtheta_macro2"),
+              contains("dtheta_other"),
+              contains("mdepth"),
+              contains("mdepth2"),
+              contains("pdepth"),
+              contains("latflow_fac"))
+
+output$parameter_output = renderTable({
+      model_result_output
+})
+##
 print("done.")
 
 message("All calculations have finished.")
@@ -623,25 +648,27 @@ if(plot_data){
   message("Plotting modeled and observed gravity signal..")
 #
 if(!inverse){
-  # output$plot_gravity_responses <- renderPlot({
-  plot_gravity_responses(
+   gravity_response_run.gg = plot_gravity_responses(
               gravity_obs = gravityObservations_file,
               gravity_mod = paste0("model_output/GravityResponse_Infiltration_model_1.rData"),
               input_dir = dir_input,
               output_dir = dir_output
   )
-  # })
+  output$plot_gravity_responses_run = renderPlot({
+    gravity_response_run.gg
+  })
 }else{
 # plot LAST (optimized) model run scenario
-  # output$plot_gravity_responses <- renderPlot({
-  plot_gravity_responses(
+   gravity_response_run.gg = plot_gravity_responses(
               gravity_obs = gravityObservations_file,
               gravity_mod = paste0("model_output/GravityResponse_Infiltration_model_", (n_param - 1), ".rData"),
               # gravity_mod = paste0("model_output/GravityResponse_Infiltration_model_9.rData"),
               input_dir = dir_input,
               output_dir = dir_output
   )
-  # })
+  output$plot_gravity_responses_run = renderPlot({
+    gravity_response_run.gg
+  })
 }
   message("done.")
 }else{
@@ -656,15 +683,18 @@ if(plot_data){
   message("Plotting 2d transect of modeled soil moisture data..")
 
 if(!inverse){
-  plot_transects_2d(
+  SM_transect_run.gg = plot_transects_2d(
               soilmoisture_mod = paste0("model_output/Infiltration_model_output_1.rData"),
               plot_int = plot_interval,
               y_pos = SG_y,
               vert_limit = NA,
               output_dir = dir_output
   )
+  output$plot_soilMoisture_transect_run = renderPlot({
+      SM_transect_run.gg
+  })
 }else{
-  plot_transects_2d(
+  SM_transect_run.gg = plot_transects_2d(
               soilmoisture_mod = paste0("model_output/Infiltration_model_output_", (n_param - 1), ".rData"),
               # soilmoisture_mod = paste0("model_output/Infiltration_model_output_9.rData"),
               plot_int = plot_interval,
@@ -673,14 +703,39 @@ if(!inverse){
               # input_dir = dir_input,
               output_dir = dir_output
   )
+  output$plot_soilMoisture_transect_run = renderPlot({
+      SM_transect_run.gg
+  })
 }
+
+
+#########################################
+## Plot: modeled soil moisture over time and depth
+#########################################
+
+  message("Plotting modeled soil moisture over depth and time..")
+
+  SM_run.gg = plot_waterDistributionOverTime(
+              soilmoisture_mod = paste0("model_output/Infiltration_model_output_", (n_param - 1), ".rData"),
+              output_dir = dir_output
+            )
+  output$plot_soilMoisture_run = renderPlot({
+    SM_run.gg
+  })
+
   message("done.")
 }else{
   message("No plotting desired.")
 }
 
 # remove iteration parameter for inner optimization function calls
-rm(n_param)
+# rm(n_param)
+
+## END: tracking R console output and pass it to shiny text output
+      },
+        message = function(m) {
+          shinyjs::html(id = "text", html = m$message, add = TRUE)
+      })
 
 #########################################
 ## end of "Running model button"
@@ -691,21 +746,78 @@ rm(n_param)
 #########################################
 ## showing RESULTS
 #########################################
- # output$plot_running_images = renderPlot({ 
- #  plotting_output()
- # })
- #  
- # output$messages = renderPrint({
- #  print(print_input())
- #   # print(assign_inputDir())
- # })
 
-  # output$summary2 <- renderPrint({
-  #     str(readdata2())
-  # })
-  # output$data1plot<-renderPlot({
-  #   plot(readdata1())	
-  # })
+####################
+## plotting ABOVE
+ observeEvent(
+      eventExpr = input[["plot_above"]],
+      handlerExpr = {
+    # input values
+    dir_input = input$plot_inputDir
+    dir_output = input$plot_outputDir
+    gravityObservations_file = input$plot_inputFile_gObs
+    plot_interval = input$plot_plot_interval
+    y_loc = input$plot_plot_transect_loc
+    n_param_1 = input$plot_nparam_1
+    #
+# start plotting, when button is pressed
+## process indicator, showing time
+withProgress(message = 'Still plotting..', value = 0, {
+
+  gravity_response_1.gg = plot_gravity_responses(
+              gravity_obs = gravityObservations_file,
+              gravity_mod = paste0("model_output/GravityResponse_Infiltration_model_", n_param_1, ".rData"),
+              input_dir = dir_input,
+              output_dir = dir_output
+  )
+  output$plot_gravity_responses_1 = renderPlot({
+    gravity_response_1.gg
+  })
+
+  SM_1.gg = plot_waterDistributionOverTime(
+              soilmoisture_mod = paste0("model_output/Infiltration_model_output_", n_param_1, ".rData"),
+              output_dir = dir_output
+            )
+  output$plot_soilMoisture_1 = renderPlot({
+    SM_1.gg
+  })
+
+  SM_transect_1.gg = plot_transects_2d(
+              soilmoisture_mod = paste0("model_output/Infiltration_model_output_", n_param_1, ".rData"),
+              plot_int = plot_interval,
+              y_pos = y_loc,
+              vert_limit = NA,
+              # input_dir = dir_input,
+              output_dir = dir_output
+  )
+  output$plot_soilMoisture_transect_1 = renderPlot({
+      SM_transect_1.gg
+  })
+
+## render table for shiny output
+# select parameters to show
+# read in model_result data
+load(file=paste0(dir_output, "Model_stats.rdata"))
+
+model_result_output = model_result %>%
+  dplyr::select(inf_process_tested, model_kge,
+              contains("dtheta_macro"),
+              contains("dtheta_macro2"),
+              contains("dtheta_other"),
+              contains("mdepth"),
+              contains("mdepth2"),
+              contains("pdepth"),
+              contains("latflow_fac"))
+
+output$plot_parameter_output = renderTable({
+      model_result_output
+})
+## end progress indicator
+})
+
+# end of "Plot above button"
+}
+)
 
 ####################
 ## End of shiny server
