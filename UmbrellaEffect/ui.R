@@ -187,16 +187,6 @@ bsTooltip(id = 'modelDepth_max', title = "", placement = "top", trigger = "hover
     ## input data: specific umbrella settings
     column(6,
     h3("Umbrella settings", align = "center"),
-      # radioButtons('Umbrella_correction_type', '',
-      #  c(building='building',
-      #    pillar='pillar'),
-      #  'building'),
-      # fluidRow(
-      # column(8,
-      #   h4("Building")),
-      # column(4,
-      #   h4("Pillar"))
-      # ),
       fluidRow(
       column(2,
         h4("")),
@@ -225,12 +215,21 @@ bsTooltip(id = 'pillar_r', title = "", placement = "top", trigger = "hover"),
 bsTooltip(id = 'pillar_d', title = "", placement = "top", trigger = "hover"),
 ## end tooltips
       fluidRow(
+      column(7, align = "right",
+        h4("Pillar correction with:")),
+      column(5, align = "left",
+      radioButtons('pillar_correction_type', '',
+       c(rectangular='rectangular',
+         circle='circle'),
+       'rectangular'))
+      ),
+      fluidRow(
       column(2,
         h4("")),
       column(6,
-        h4("Pillar: rectangle")),
+        h4("rectangle")),
       column(4,
-        h4("Pillar: circle"))
+        h4("circle"))
       ),
       fluidRow(
       column(2),
@@ -365,52 +364,32 @@ tabPanel("Model results", align = "center",
     wellPanel(
     fluidRow(
     column(8,
-    # h3("Plot settings", align = "center"),
+      h3("Plot settings", align = "center"),
       # app directories
       fluidRow(
+      column(3,
+      textInput("plot_inputDir", label = "Working directory input", value = "~/temp/UM/")),
+      column(3,
+      textInput("plot_outputDir", label = "Working directory output", value = "~/temp/UM/")),
       column(4,
-      textInput("plot_inputDir", label = "Working directory input", value = "~/temp/GI/")),
-      column(4,
-      textInput("plot_outputDir", label = "Working directory output", value = "~/temp/GI/")),
-      column(4,
-      textInput("plot_inputFile_gObs", label = "Gravity observations", value = "iGrav006_obs_60sec.tsf"))
+      textInput("plot_inputFile_gObs", label = "Gravity observations", value = "SG030_TS_1month.tsf")),
+      column(2,
+      numericInput("plot_data_tsf", label = "for tsf:", value = 13))
+      )
       ),
-      fluidRow(
-        column(4,
-        numericInput("plot_nparam_1", label = "Dataset to plot above", value = 1)),
-        column(4,
-        numericInput("plot_plot_interval", label = "Plot interval:", value = 60)),
-        column(4,
-        numericInput("plot_plot_transect_loc", label = "Plot transect location:", value = 0))
-        )
-      ),
-      fluidRow(
       column(4, 
          actionButton(
-             inputId = "plot_above",
-             label = "Plot output"))
-      )
+             inputId = "plot_results",
+             label = "Read output and plot it"))
       )
     ),
 fluidRow(
-        column(4,
-            h4("Gravity response")),
-        column(4,
-            h4("Soil moisture over depth and time")),
-        column(4,
-            h4("Soil moisture transect at different times"))
+        column(12,
+            h4("Gravity time series of input, calculations and reduction"))
         ),
 fluidRow(
-        column(4,
-            plotOutput(outputId = "plot_gravity_responses_1")),
-        column(4,
-            plotOutput(outputId = "plot_soilMoisture_1")),
-        column(4,
-            plotOutput(outputId = "plot_soilMoisture_transect_1"))
-        ),
-    fluidRow(
-             h4("Optimized parameters: "),
-            tableOutput("plot_parameter_output")
+        column(12,
+            plotOutput(outputId = "plot_all_gravity_data_results"))
         )
 ) # end tab: Model results
 
